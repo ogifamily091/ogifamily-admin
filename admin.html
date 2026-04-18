@@ -3235,8 +3235,10 @@
   <script>
     (function () {
       var hasNativeAppsScript = !!(window.google && window.google.script && window.google.script.run);
-      <script src="config.js" defer></script>
-      <script src="runtime-bridge.js" defer></script>
+      if (!hasNativeAppsScript) {
+        document.write('<script src="./config.js"><\/script>');
+        document.write('<script src="./runtime-bridge.js"><\/script>');
+      }
     })();
   </script>
   <script>
@@ -3311,18 +3313,7 @@
       { key: 'hpp-report', label: 'Laporan HPP', buttonId: 'tabHppReportMenu', tabId: 'hpp-report', defaultInvestor: false },
       { key: 'password', label: 'Ubah Password', buttonId: 'adminTabPassword', tabId: 'password', defaultInvestor: true }
     ];
-    window.addEventListener("DOMContentLoaded", function () {
-      if (window.OgiRuntimeBridge) {
-        window.OgiRuntimeBridge.installGoogleScriptRunShim({
-          pageName: 'admin',
-          methods: [
-            "getAdminMenuAccess"
-          ]
-        });
-      } else {
-        console.error("OgiRuntimeBridge tidak ke-load");
-      }
-    });
+
     // Format date for input (used in multiple places)
     function formatDateInput(date) {
       var year = date.getFullYear();
@@ -4527,14 +4518,9 @@
     }
 
     // Enter key login
-    document.addEventListener("DOMContentLoaded", function () {
-      if (window.OgiRuntimeBridge) {
-        window.OgiRuntimeBridge.installGoogleScriptRunShim({
-          pageName: 'admin',
-          methods: ["getAdminMenuAccess"]
-        });
-      } else {
-        console.error("Bridge gagal load");
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !isLoggedIn) {
+        login();
       }
     });
 
