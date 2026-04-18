@@ -4527,9 +4527,14 @@
     }
 
     // Enter key login
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && !isLoggedIn) {
-        login();
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.OgiRuntimeBridge) {
+        window.OgiRuntimeBridge.installGoogleScriptRunShim({
+          pageName: 'admin',
+          methods: ["getAdminMenuAccess"]
+        });
+      } else {
+        console.error("Bridge gagal load");
       }
     });
 
