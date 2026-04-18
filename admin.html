@@ -3311,7 +3311,18 @@
       { key: 'hpp-report', label: 'Laporan HPP', buttonId: 'tabHppReportMenu', tabId: 'hpp-report', defaultInvestor: false },
       { key: 'password', label: 'Ubah Password', buttonId: 'adminTabPassword', tabId: 'password', defaultInvestor: true }
     ];
-
+    window.addEventListener("DOMContentLoaded", function () {
+      if (window.OgiRuntimeBridge) {
+        window.OgiRuntimeBridge.installGoogleScriptRunShim({
+          pageName: 'admin',
+          methods: [
+            "getAdminMenuAccess"
+          ]
+        });
+      } else {
+        console.error("OgiRuntimeBridge tidak ke-load");
+      }
+    });
     // Format date for input (used in multiple places)
     function formatDateInput(date) {
       var year = date.getFullYear();
